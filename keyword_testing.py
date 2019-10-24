@@ -127,17 +127,18 @@ def testing_function(path):
     fin_reviews = []
     cols = ['Candidate Keyword', 'Similarity Keyword', 'Source Keyword']
     keyword_df = pd.DataFrame(columns=cols)
-    data_set = set()
+    final_keys = []
 
     for review in reviews:
         if len(review.split()) > 40:
             fin_reviews.append(review)
 
     for review in fin_reviews[:100]:
-        data_set.add((keyword_generator(review, performance_keywords, general_keywords)))
+        data_dict = (keyword_generator(review, performance_keywords, general_keywords))
+        for key in data_dict.keys():
+            final_keys.append(key, data_dict[key][0], data_dict[key][1])
 
-    final_keylist = list(data_set)
-    for item in final_keylist:
+    for item in final_keys:
         keyword_df.append(item)
 
     keyword_df.to_csv('keyword.csv')
